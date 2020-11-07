@@ -1,0 +1,5 @@
+__pycache__
+*.sqlite3
+*.swp
+.idea
+static/admin
