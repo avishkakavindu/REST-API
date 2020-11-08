@@ -3,5 +3,5 @@ __pycache__
 *.swp
 .idea
 static/admin
-/smartapiapp/myconfig.py
-/smartapiapp/.env
+/smartappapi/myconfig.py
+/smartappapi/*.env
