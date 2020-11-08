@@ -4,3 +4,4 @@ __pycache__
 .idea
 static/admin
 /smartapiapp/myconfig.py
+/smartapiapp/.env
