@@ -78,3 +78,5 @@ class PasswordResetSerializer(serializers.Serializer):
     class Meta:
         fields = ['email']
 
+
+class SetNewPasswordSerializer(serializers.Serializer):

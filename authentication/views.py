@@ -1,7 +1,7 @@
 from django.shortcuts import render
 from rest_framework import generics, status, views
 from rest_framework.response import Response
-from .serializers import RegisterSerializer, EmailVerificationSerializer, LoginSerializer, PasswordResetSerializer
+from .serializers import RegisterSerializer, EmailVerificationSerializer, LoginSerializer, PasswordResetSerializer, SetNewPasswordSerializer
 from rest_framework_simplejwt.tokens import RefreshToken
 from .models import User
 from .utils import Util
@@ -125,4 +125,34 @@ class PasswordResetAPIView(generics.GenericAPIView):
 
 class PasswordTokenCheckAPIView(generics.GenericAPIView):
     def get(self, request, uidb64, token):
-        pass
+        try:
+            id = smart_str(urlsafe_base64_decode(uidb64))
+            user = User.objects.get(id=id)
+            context = {
+                'success': True,
+                'msg': 'Credentials Valid',
+                'uidb64': uidb64,
+                'token': token,
+            }
+
+            # check whether the use of first time
+            # if PasswordResetTokenGenerator().check_token(user, token):
+            #     return Response({'error': 'Token is not valid anymore!'}, status=status.HTTP_401_UNAUTHORIZED)
+
+            return Response(context, status=status.HTTP_200_OK)
+
+        except DjangoUnicodeDecodeError as identifier:
+            return Response({'error': 'Token is not valid anymore!'}, status=status.HTTP_401_UNAUTHORIZED)
+
+
+class SetNewPassword(generics.GenericAPIView):
+    serializer_class = SetNewPasswordSerializer
+
+    def patch(self, request):
+        serializer = self.serializer_class(data=request.data)
+        serializer.is_valid(raise_exception=True)
+        context = {
+            'success': True, 'msg': 'Password Reset Success!'
+        }
+
+        return Response(context, status=status.HTTP_200_OK)
