@@ -145,7 +145,7 @@ class PasswordTokenCheckAPIView(generics.GenericAPIView):
             return Response({'error': 'Token is not valid anymore!'}, status=status.HTTP_401_UNAUTHORIZED)
 
 
-class SetNewPassword(generics.GenericAPIView):
+class SetNewPasswordAPIView(generics.GenericAPIView):
     serializer_class = SetNewPasswordSerializer
 
     def patch(self, request):
