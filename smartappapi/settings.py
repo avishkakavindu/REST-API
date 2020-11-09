@@ -11,7 +11,7 @@ https://docs.djangoproject.com/en/3.1/ref/settings/
 """
 import os
 from pathlib import Path
-from .myconfig import email_config
+from .myconfig import email_config, SK
 import environ
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
@@ -22,7 +22,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/3.1/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = '#tyvwcv2#z^_9d3)z1(fiq4(uy@c&%sn_+8sz6$oi4qs=)z1v0'
+SECRET_KEY = SK
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
@@ -43,6 +43,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'rest_framework',
     'knox',
+    'drf_yasg',
     'authentication',
 ]
 
@@ -150,4 +151,4 @@ EMAIL_PORT = 587
 EMAIL_HOST_USER = email_config['EMAIL_HOST_USER']
 EMAIL_HOST_PASSWORD = email_config['EMAIL_HOST_PASSWORD']
 
-print(EMAIL_HOST_USER, EMAIL_HOST_PASSWORD)
+# print(EMAIL_HOST_USER, EMAIL_HOST_PASSWORD)
