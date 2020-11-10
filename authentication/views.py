@@ -137,7 +137,7 @@ class PasswordTokenCheckAPIView(generics.GenericAPIView):
 
             # check whether the use of first time
             # if PasswordResetTokenGenerator().check_token(user, token):
-            #     return Response({'error': 'Token is not valid anymore!'}, status=status.HTTP_401_UNAUTHORIZED)
+            #     return Response({'error': 'Token is not Expired!'}, status=status.HTTP_401_UNAUTHORIZED)
 
             return Response(context, status=status.HTTP_200_OK)
 
