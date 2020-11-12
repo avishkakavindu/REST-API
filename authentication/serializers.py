@@ -8,6 +8,8 @@ from .models import User
 
 
 class RegisterSerializer(serializers.ModelSerializer):
+    """Serializer for user Registration"""
+
     password1 = serializers.CharField(max_length=20, min_length=4, write_only=True)
     password2 = serializers.CharField(max_length=20, min_length=4, write_only=True)
 
@@ -35,6 +37,8 @@ class RegisterSerializer(serializers.ModelSerializer):
 
 
 class EmailVerificationSerializer(serializers.ModelSerializer):
+    """Serializer for Email Verification"""
+
     token = serializers.CharField(max_length=512)
 
     class Meta:
@@ -43,6 +47,8 @@ class EmailVerificationSerializer(serializers.ModelSerializer):
 
 
 class LoginSerializer(serializers.ModelSerializer):
+    """Serializer for Login"""
+
     email = serializers.EmailField(max_length=255)
     password = serializers.CharField(max_length=20, min_length=4, write_only=True)
     username = serializers.CharField(max_length=20, read_only=True)
@@ -76,6 +82,8 @@ class LoginSerializer(serializers.ModelSerializer):
 
 
 class PasswordResetSerializer(serializers.Serializer):
+    """Serializer for Requesting Password Reset Email"""
+
     email = serializers.EmailField(max_length=255)
 
     class Meta:
@@ -83,6 +91,8 @@ class PasswordResetSerializer(serializers.Serializer):
 
 
 class SetNewPasswordSerializer(serializers.Serializer):
+    """Serializer for Setting of New Password"""
+
     password1 = serializers.CharField(max_length=20, min_length=4, write_only=True)
     password2 = serializers.CharField(max_length=20, min_length=4, write_only=True)
     token = serializers.CharField(min_length=1, write_only=True)
@@ -115,5 +125,8 @@ class SetNewPasswordSerializer(serializers.Serializer):
 
         except Exception as e:
             raise AuthenticationFailed(e, 401)
+
+
+
 
 

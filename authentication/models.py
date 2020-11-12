@@ -35,6 +35,7 @@ class User(AbstractBaseUser, PermissionsMixin):
     is_staff = models.BooleanField(default=False)  # is user in staff?
     created_at = models.DateTimeField(auto_now_add=True)  # registered date
     updated_at = models.DateTimeField(auto_now_add=True)  # last update date
+    profile_pic = models.ImageField(default='default.png')
 
     USERNAME_FIELD = 'email'
     REQUIRED_FIELDS = ['username']

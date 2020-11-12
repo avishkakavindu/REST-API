@@ -104,7 +104,7 @@ class PasswordResetAPIView(generics.GenericAPIView):
             token = PasswordResetTokenGenerator().make_token(user)
 
             current_site = get_current_site(request=request).domain
-            relative_link = reverse('password-reset-confirm', kwargs={'uidb64':uidb64, 'token': token})  # goto email-verify/ path
+            relative_link = reverse('password-reset-token-check', kwargs={'uidb64':uidb64, 'token': token})  # goto email-verify/ path
             absolute_url = 'http://' + current_site + relative_link
             email_body = "Hi \nUse bellow link to reset your password\n" + absolute_url
 
@@ -124,6 +124,8 @@ class PasswordResetAPIView(generics.GenericAPIView):
 
 
 class PasswordTokenCheckAPIView(generics.GenericAPIView):
+    serializer_class = SetNewPasswordSerializer
+
     def get(self, request, uidb64, token):
         try:
             id = smart_str(urlsafe_base64_decode(uidb64))
@@ -156,3 +158,5 @@ class SetNewPasswordAPIView(generics.GenericAPIView):
         }
 
         return Response(context, status=status.HTTP_200_OK)
+
+
