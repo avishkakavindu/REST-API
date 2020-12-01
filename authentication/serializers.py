@@ -7,6 +7,10 @@ from django.utils.http import urlsafe_base64_encode, urlsafe_base64_decode
 from .models import User
 
 
+def upload_to(instance, filename):
+    return 'profile/{filename}'.format(filename=filename)
+
+
 class RegisterSerializer(serializers.ModelSerializer):
     """Serializer for user Registration"""
 
@@ -127,6 +131,16 @@ class SetNewPasswordSerializer(serializers.Serializer):
             raise AuthenticationFailed(e, 401)
 
 
+class SetProfilePictureSerializer(serializers.ModelSerializer):
+    """Serializer for Profile Picture Update"""
+    profile_pic = serializers.ImageField(default='profile/default1.png')
 
+    class Meta:
+        model = User
+        fields = ['profile_pic']
+
+    def update(self, instance, validated_data):
+        instance.super().update(instance, validated_data)
+        return instance
 
 

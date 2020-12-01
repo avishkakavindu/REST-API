@@ -47,6 +47,18 @@ INSTALLED_APPS = [
     'authentication',
 ]
 
+
+SWAGGER_SETTINGS = {
+    'SECURITY_DEFINITIONS': {
+        'Token':{
+            'type': 'apiKey',
+            'name': 'Authorization',
+            'in':  'header',
+        }
+    }
+}
+
+
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
@@ -92,9 +104,10 @@ DATABASES = {
 # REST Framework
 # https://www.django-rest-framework.org/
 REST_FRAMEWORK = {
-    'DEFAULT_AUTHENTICATION_CLASES': (
+    'DEFAULT_AUTHENTICATION_CLASSES': (
         'rest_framework_simplejwt.authentication.JWTAuthentication',
     )
+
 }
 
 # Password validation

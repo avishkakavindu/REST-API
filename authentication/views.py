@@ -1,8 +1,18 @@
 from django.shortcuts import render
-from rest_framework import generics, status, views
+from rest_framework import generics, status, views, permissions
+from rest_framework.parsers import MultiPartParser, FormParser
 from rest_framework.response import Response
-from .serializers import RegisterSerializer, EmailVerificationSerializer, LoginSerializer, PasswordResetSerializer, SetNewPasswordSerializer
+from .serializers import (
+    RegisterSerializer,
+    EmailVerificationSerializer,
+    LoginSerializer,
+    PasswordResetSerializer,
+    SetNewPasswordSerializer,
+    SetProfilePictureSerializer,
+)
 from rest_framework_simplejwt.tokens import RefreshToken
+from rest_framework_simplejwt.authentication import JWTTokenUserAuthentication
+from rest_framework.authentication import TokenAuthentication
 from .models import User
 from .utils import Util
 from django.contrib.auth.tokens import PasswordResetTokenGenerator
@@ -160,3 +170,23 @@ class SetNewPasswordAPIView(generics.GenericAPIView):
         return Response(context, status=status.HTTP_200_OK)
 
 
+class SetProfilePictureAPIView(views.APIView):
+    serializer_class = SetProfilePictureSerializer
+    # authentication_classes = [ JWTTokenUserAuthentication ]
+    # permission_classes = [permissions.IsAuthenticated, ]
+    parser_classes = [MultiPartParser, FormParser]
+
+
+    def put(self, request, *args, **kwargs):
+        serializer = SetProfilePictureSerializer(data=request.data)
+        serializer.is_valid(raise_exception=True)
+        # return Response({'success':True, 'msg':'Profile Picture set'}, status=status.HTTP_200_OK)
+        #user = User.objects.get(user=request.user)
+        print("mydata:", request.data)
+        serializer = self.serializer_class(data=request.data, partial=True)
+
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data, status=status.HTTP_200_OK)
+        else:
+            return Response(serializer.error, status=status.HTTP_400_BAD_REQUEST)

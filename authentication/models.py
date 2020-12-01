@@ -3,6 +3,10 @@ from django.contrib.auth.models import AbstractBaseUser, BaseUserManager, Permis
 from rest_framework_simplejwt.tokens import RefreshToken
 
 
+def upload_to(instance, filename):
+    return 'profile/{filename}'.format(filename=filename)
+
+
 class UserManager(BaseUserManager):
     def create_user(self, username, email, password1=None):
         if username is None:
@@ -35,7 +39,7 @@ class User(AbstractBaseUser, PermissionsMixin):
     is_staff = models.BooleanField(default=False)  # is user in staff?
     created_at = models.DateTimeField(auto_now_add=True)  # registered date
     updated_at = models.DateTimeField(auto_now_add=True)  # last update date
-    profile_pic = models.ImageField(default='default.png')
+    profile_pic = models.ImageField(default='profile/default.png', upload_to=upload_to, )
 
     USERNAME_FIELD = 'email'
     REQUIRED_FIELDS = ['username']
